@@ -47,7 +47,10 @@ void FloodingRouter::sniffReceived(const meshtastic_MeshPacket *p, const meshtas
             if (config.device.role != meshtastic_Config_DeviceConfig_Role_CLIENT_MUTE) {
                 meshtastic_MeshPacket *tosend = packetPool.allocCopy(*p); // keep a copy because we will be sending it
 
-                tosend->hop_limit--; // bump down the hop count
+                //TODO: Don't decrement if REPEATER
+                if (config.device.role != meshtastic_Config_DeviceConfig_Role_REPEATER) {
+                    tosend->hop_limit--; // bump down the hop count
+                }
 
                 LOG_INFO("Rebroadcasting received floodmsg to neighbors\n");
                 // Note: we are careful to resend using the original senders node id
