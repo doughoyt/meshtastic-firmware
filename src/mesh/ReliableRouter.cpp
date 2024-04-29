@@ -79,10 +79,7 @@ bool ReliableRouter::shouldFilterReceived(const meshtastic_MeshPacket *p)
     if (wasSeenRecently(p, false) && isRepeated && !MeshModule::currentReply && p->to != nodeDB->getNodeNum()) {
         LOG_DEBUG("Resending implicit ack for a repeated floodmsg\n");
         meshtastic_MeshPacket *tosend = packetPool.allocCopy(*p);
-        //TODO: Don't decrement if REPEATER
-        if (config.device.role != meshtastic_Config_DeviceConfig_Role_REPEATER) {
-            tosend->hop_limit--; // bump down the hop count
-        }
+        tosend->hop_limit--; // bump down the hop count
         Router::send(tosend);
     }
 
