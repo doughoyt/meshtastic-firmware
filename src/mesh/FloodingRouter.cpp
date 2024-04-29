@@ -42,12 +42,12 @@ void FloodingRouter::sniffReceived(const meshtastic_MeshPacket *p, const meshtas
         LOG_DEBUG("Receiving an ACK not for me, but don't need to rebroadcast this direct message anymore.\n");
         Router::cancelSending(p->to, p->decoded.request_id); // cancel rebroadcast for this DM
     }
-    if ((p->to != getNodeNum()) && (p->hop_limit > 0) && (getFrom(p) != getNodeNum())) {
+    if ((p->to != getNodeNum()) && (p->hop_limit > 0 || config.device.role == meshtastic_Config_DeviceConfig_Role_REPEATER) 
+            && (getFrom(p) != getNodeNum())) {
         if (p->id != 0) {
             if (config.device.role != meshtastic_Config_DeviceConfig_Role_CLIENT_MUTE) {
                 meshtastic_MeshPacket *tosend = packetPool.allocCopy(*p); // keep a copy because we will be sending it
 
-                //TODO: Don't decrement if REPEATER
                 if (config.device.role != meshtastic_Config_DeviceConfig_Role_REPEATER) {
                     tosend->hop_limit--; // bump down the hop count
                 }
