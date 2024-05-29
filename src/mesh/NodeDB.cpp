@@ -269,11 +269,11 @@ void NodeDB::installDefaultConfig()
         config.device.node_info_broadcast_secs = default_node_info_broadcast_secs;
     config.device.serial_enabled = true;
     resetRadioConfig();
-    strncpy(config.network.ntp_server, "0.pool.ntp.org", 32);
+    strncpy(config.network.ntp_server, "meshtastic.pool.ntp.org", 32);
     // FIXME: Default to bluetooth capability of platform as default
     config.bluetooth.enabled = true;
     config.bluetooth.fixed_pin = defaultBLEPin;
-#if defined(ST7735_CS) || defined(USE_EINK) || defined(ILI9341_DRIVER) || defined(ST7789_CS)
+#if defined(ST7735_CS) || defined(USE_EINK) || defined(ILI9341_DRIVER) || defined(ST7789_CS) || defined(HX8357_CS)
     bool hasScreen = true;
 #elif ARCH_PORTDUINO
     bool hasScreen = false;
