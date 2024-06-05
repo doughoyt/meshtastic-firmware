@@ -4,23 +4,18 @@
 
 #include "../mesh/generated/meshtastic/telemetry.pb.h"
 #include "TelemetrySensor.h"
-#include <Adafruit_VEML7700.h>
+#include <Adafruit_TSL2591.h>
 
-class VEML7700Sensor : public TelemetrySensor
+class TSL2591Sensor : public TelemetrySensor
 {
   private:
-    const float MAX_RES = 0.0036;
-    const float GAIN_MAX = 2;
-    const float IT_MAX = 800;
-    Adafruit_VEML7700 veml7700;
-    float computeLux(uint16_t rawALS, bool corrected);
-    float getResolution(void);
+    Adafruit_TSL2591 tsl;
 
   protected:
     virtual void setup() override;
 
   public:
-    VEML7700Sensor();
+    TSL2591Sensor();
     virtual int32_t runOnce() override;
     virtual bool getMetrics(meshtastic_Telemetry *measurement) override;
 };
